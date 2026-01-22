@@ -78,6 +78,27 @@ class ProductosDAO {
         }
     }
 
+  public function verProductosGeneral($producId) {
+    try {
+        // 1. Preparamos la consulta SQL
+        // Usamos un marcador de posición (?) para mayor seguridad
+        $sql = "SELECT * FROM productos WHERE id = ?";
+        
+        $stmt = $this->db->prepare($sql);
+        
+        // 2. Ejecutamos pasando el ID como un array
+        $stmt->execute([$producId]);
+        
+        // 3. Retornamos el resultado (fetch devuelve una sola fila)
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+        
+    } catch (PDOException $e) {
+        // Manejo de errores
+        error_log("Error en verProductosGeneral: " . $e->getMessage());
+        return null;
+    }
+}
+
 }
 
 ?>
